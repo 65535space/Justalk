@@ -1,0 +1,25 @@
+{
+  "name": "justalk",
+  "version": "1.0.0",
+  "description": "勝手に喋るdiscord bot",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/65535space/Justalk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/65535space/Justalk/issues"
+  },
+  "homepage": "https://github.com/65535space/Justalk#readme",
+  "dependencies": {
+    "discord.js": "^14.17.3"
+  }
+}
