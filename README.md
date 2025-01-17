@@ -1,23 +1,24 @@
 # Justalk
-勝手に喋るdiscord bot
+勝手に喋るdiscord bot</br>
 
 実行手順
-
-config.jsonをプロジェクトディレクトリの下に作る config.jsonの内容
+1. config.jsonを追加する
+2. npm initする
+```
+npm init -y
+```
+3. discord.jsや@discordjs/voiceをいれる
+```
+npm install discord.js @discordjs/voice
+```
+```json
 {
-    "applicationId": "xxxxxxxxxxxxxxxxx",
-    "guildId": "xxxxxxxxxxxxxxx",
-    "token": "xxxxxxxxxxxxxxxxxxxxxxxxx"
-}
-
-エラー文が出る時のconfig.json;
-{
-    "applicationId": "xxxxx",
-    "guildId": "xxxxx",
-    "token": "xxxxx",
+    "applicationId": "",
+    "guildId": "",
     "LISTENER": {
-    "CLIENT_ID": "xxxxx",
-    "TOKEN": "xxxxx",
-    "VC_ID": "xxxxx"
+    "CLIENT_ID": "",
+    "TOKEN": "",
+    "VC_ID": ""
     }
 }
+```
