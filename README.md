@@ -19,6 +19,5 @@ config.jsonをプロジェクトディレクトリの下に作る config.jsonの
     "CLIENT_ID": "xxxxx",
     "TOKEN": "xxxxx",
     "VC_ID": "xxxxx"
-    },
-    "GUILD_ID": "xxxxx"
+    }
 }

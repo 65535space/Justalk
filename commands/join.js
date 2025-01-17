@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, VoiceChannel } from 'discord.js';
 // BOTをVCに参加させるために必要
 import { joinVoiceChannel } from '@discordjs/voice';
-import { LISTENER } from '../config.json';
-import { createDiscordJSAdapter } from '../adapter.js';
+
+import config from '../config.json' with { type: 'json'};
 
 export const data = new SlashCommandBuilder()
     .setName('join')
@@ -15,9 +15,9 @@ export async function execute(interaction) {
     }
     // VCに参加する処理
     const connection = joinVoiceChannel({
-        guildId: interaction.guild.id,
-        channelId: LISTENER.VC_ID,
-        adapterCreator: createDiscordJSAdapter(channel),
+        guildId: config.guildId,
+        channelId: config.LISTENER.VC_ID,
+        adapterCreator: interaction.guild.voiceAdapterCreator,
     });
     await interaction.reply('参加しました！');
 }

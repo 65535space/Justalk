@@ -1,8 +1,9 @@
 import { data, execute } from './commands/join.js';
 import { Client, Events, GatewayIntentBits} from 'discord.js';
 
-import config from './config.json' with { type: 'json' };
-const { token } = config;
+import config from './config.json' with { type: 'json'};
+console.log('token from config', config.LISTENER.TOKEN);
+const {TOKEN} = config.LISTENER;
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds]});
 
@@ -29,4 +30,4 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
-client.login(token);
+client.login(TOKEN);
