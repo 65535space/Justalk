@@ -1,12 +1,13 @@
 import { REST, Routes } from 'discord.js';
 
-import { data } from './commands/join.js';
+import { data as joinData} from './commands/join.js';
+import { data as leaveData} from './commands/leave.js'; 
 
 import config from './config.json' with { type: 'json'};
 const {TOKEN} = config.LISTENER;
 
 // 登録コマンドを呼び出してリスト形式で登録
-const commands = [data.toJSON()];
+const commands = [joinData.toJSON(), leaveData.toJSON()];
 
 // DiscordのAPIには現在version10を指定
 const rest = new REST({version: '10'}).setToken(TOKEN);

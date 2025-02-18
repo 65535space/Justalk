@@ -22,3 +22,7 @@ npm install discord.js @discordjs/voice
     }
 }
 ```
+
+気になったこと（単語など）
+EventEmitter
+イベント駆動型プログラミング

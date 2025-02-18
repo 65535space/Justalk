@@ -1,23 +1,72 @@
-import { SlashCommandBuilder, VoiceChannel } from 'discord.js';
+import { SlashCommandBuilder} from 'discord.js';
 // BOTをVCに参加させるために必要
-import { joinVoiceChannel } from '@discordjs/voice';
+import { entersState, joinVoiceChannel, VoiceConnectionStatus, getVoiceConnection} from '@discordjs/voice';
 
-import config from '../config.json' with { type: 'json'};
+// import config from '../config.json' with { type: 'json'};
+
 
 export const data = new SlashCommandBuilder()
     .setName('join')
     .setDescription('VCに参加します');
 export async function execute(interaction) {
+    await interaction.deferReply();
+    let connection = getVoiceConnection(interaction.guildId);
+
     const channel = interaction.member.voice.channel;
+    
+    console.log("デバッグ: getVoiceConnection の結果:", getVoiceConnection(interaction.guildId));    
+
     if (!channel) {
-        await interaction.reply('You need to be in a voice channel to use this command!');
+        await interaction.followUp('You need to be in a voice channel to use this command!');
         return;
     }
-    // VCに参加する処理
-    const connection = joinVoiceChannel({
-        guildId: config.guildId,
-        channelId: config.LISTENER.VC_ID,
-        adapterCreator: interaction.guild.voiceAdapterCreator,
-    });
-    await interaction.reply('参加しました！');
+    
+    // チャンネル内にいない場合の処理(以前のコード)
+    // if (interaction.member?.voice.channel) {
+    //     await interaction.followUp('Join a voice channel and then try that again!');
+    //     return;
+    // }
+
+    if (!connection || connection.state.status === VoiceConnectionStatus.Disconnected) {
+        console.log("Bot は VC にいません。接続を試みます...");
+        
+        connection = joinVoiceChannel({
+            guildId: interaction.guildId,
+            channelId: interaction.member.voice.channel.id,
+            adapterCreator: interaction.guild.voiceAdapterCreator,
+            selfDeaf: false,
+            selfMute: true,
+        });
+        console.log("デバッグ: joinVoiceChannel の結果:", connection);
+    } else {
+        console.log("よく見て、ここにいるよ（VC内）");
+    }
+
+    // VCに参加する処理(以前のコード)
+     
+    // const connection = joinVoiceChannel({
+    //     guildId: config.guildId,
+    //     channelId: config.LISTENER.VC_ID,
+    //     adapterCreator: interaction.guild.voiceAdapterCreator,
+    // });
+
+    try{
+        await entersState(connection, VoiceConnectionStatus.Ready, 20_000);
+        const receiver = connection.receiver;
+
+        receiver.speaking.on('start', async ()=>{
+            console.log(`ね、今喋ったでしょ？静かにしなさいよ！`);
+        });
+
+        receiver.speaking.on('end', async ()=>{
+            console.log(`喋り終わったわね！ならよしですわ～！`);
+        });
+
+    }catch(error){
+        console.error(error);
+
+        await interaction.followUp('Failed to join voice channel within 20 seconds, please try again later!');
+    }
+
+    await interaction.followUp('参加しました！');
 }
