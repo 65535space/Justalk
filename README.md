@@ -7,10 +7,11 @@
 ```
 npm init -y
 ```
-3. discord.jsや@discordjs/voiceをいれる
+3. packageをいれる
 ```
-npm install discord.js @discordjs/voice
+npm install
 ```
+4. 必要なIdをconfig.jsonに記入する
 ```json
 {
     "applicationId": "",
@@ -23,6 +24,17 @@ npm install discord.js @discordjs/voice
 }
 ```
 
+便利だと感じたパッケージ
+depcheck プロジェクト内で実際に使用されていないパッケージを検出するツール
+```
+npm install depcheck
+npx depcheck
+```
+
 気になったこと（単語など）
 EventEmitter
 イベント駆動型プログラミング
+Opus
+コーデック
+バインディング
+util
