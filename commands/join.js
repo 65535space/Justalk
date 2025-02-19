@@ -11,6 +11,9 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
     await interaction.deferReply();
     let connection = getVoiceConnection(interaction.guildId);
+    let timeoutId = 0;
+    // let timeoutCounter = 0;
+    // let nowtime = new Date();
 
     const channel = interaction.member.voice.channel;
     
@@ -53,19 +56,35 @@ export async function execute(interaction) {
     try{
         await entersState(connection, VoiceConnectionStatus.Ready, 20_000);
         const receiver = connection.receiver;
-
+    
         receiver.speaking.on('start', async ()=>{
             console.log(`ね、今喋ったでしょ？静かにしなさいよ！`);
+            //TODO: タイムアウトをリセット
+            clearTimeout(timeoutId);
+            //TODO: タイムアウトした際に、喋っている人に通知を送る
+            
         });
 
         receiver.speaking.on('end', async ()=>{
             console.log(`喋り終わったわね！ならよしですわ～！`);
+            //TODO: 現在時刻の取得+タイムアウトするまでの時間を設定（上書きされ続ける）
+            startTimer();
+            // nowtime = Date.now() / 1000;
+            // console.log(`nowtime: ${nowtime}`);
+            // timeoutCounter = nowtime + 20;
+            // console.log(`timeoutCounter: ${timeoutCounter}`);
         });
 
     }catch(error){
         console.error(error);
 
         await interaction.followUp('Failed to join voice channel within 20 seconds, please try again later!');
+    }
+
+    function startTimer(){
+        timeoutId = setTimeout(() => {
+            console.log(`タイムアウトしました！`);
+        }, 5_000);
     }
 
     await interaction.followUp('参加しました！');
