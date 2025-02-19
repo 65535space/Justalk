@@ -1,8 +1,15 @@
 import { SlashCommandBuilder} from 'discord.js';
 // BOTをVCに参加させるために必要
 import { entersState, joinVoiceChannel, VoiceConnectionStatus, getVoiceConnection} from '@discordjs/voice';
-
 // import config from '../config.json' with { type: 'json'};
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const geminiApiKey = process.env.GEMINI_API_KEY
+const genAI = new GoogleGenerativeAI(geminiApiKey);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// GeminiのAIに渡すプロンプト
+const prompt = "Create a one-sentence conversation starter for group chats. Please reply in Japanese only.";
+let aiResult;
 
 
 export const data = new SlashCommandBuilder()
@@ -61,8 +68,6 @@ export async function execute(interaction) {
             console.log(`ね、今喋ったでしょ？静かにしなさいよ！`);
             //TODO: タイムアウトをリセット
             clearTimeout(timeoutId);
-            //TODO: タイムアウトした際に、喋っている人に通知を送る
-            
         });
 
         receiver.speaking.on('end', async ()=>{
@@ -81,10 +86,13 @@ export async function execute(interaction) {
         await interaction.followUp('Failed to join voice channel within 20 seconds, please try again later!');
     }
 
+    // タイムアウト後、AIが発言する処理
     function startTimer(){
-        timeoutId = setTimeout(() => {
+        timeoutId = setTimeout(async () => {
             console.log(`タイムアウトしました！`);
-        }, 5_000);
+            aiResult = await model.generateContent(prompt);
+            console.log(aiResult.response.text());
+        }, 10_000);
     }
 
     await interaction.followUp('参加しました！');
