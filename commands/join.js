@@ -4,6 +4,7 @@ import { entersState, joinVoiceChannel, VoiceConnectionStatus, getVoiceConnectio
 // import config from '../config.json' with { type: 'json'};
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+// GENERATIVE_AI_API_KEY は環境変数に設定しておく
 const geminiApiKey = process.env.GEMINI_API_KEY
 const genAI = new GoogleGenerativeAI(geminiApiKey);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -65,7 +66,7 @@ export async function execute(interaction) {
         const receiver = connection.receiver;
     
         receiver.speaking.on('start', async ()=>{
-            console.log(`ね、今喋ったでしょ？静かにしなさいよ！`);
+            console.log(`ね、今喋ったでしょ？静かにしなさいよね！`);
             //TODO: タイムアウトをリセット
             clearTimeout(timeoutId);
         });

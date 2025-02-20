@@ -11,18 +11,6 @@ npm init -y
 ```
 npm install
 ```
-4. 必要なIdをconfig.jsonに記入する
-```json
-{
-    "applicationId": "",
-    "guildId": "",
-    "LISTENER": {
-    "CLIENT_ID": "",
-    "TOKEN": "",
-    "VC_ID": ""
-    }
-}
-```
 
 便利だと感じたパッケージ
 depcheck プロジェクト内で実際に使用されていないパッケージを検出するツール

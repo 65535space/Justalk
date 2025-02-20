@@ -2,10 +2,7 @@ import { data as joinData, execute as joinExecute } from './commands/join.js';
 import { data as leaveData, execute as leaveExecute } from './commands/leave.js';
 import { Client, Events, GatewayIntentBits} from 'discord.js';
 
-import config from './config.json' with { type: 'json'};
-console.log('token from config', config.LISTENER.TOKEN);
-const {TOKEN} = config.LISTENER;
-
+const token = process.env.JUSTALK_TOKEN;
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]});
 
 client.once(Events.ClientReady, c => {
@@ -33,4 +30,4 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
-client.login(TOKEN);
+client.login(token);
