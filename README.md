@@ -1,5 +1,9 @@
 # Justalk
 勝手に喋るdiscord bot</br>
+・10秒静寂期間の後、Botが発話（音声再生）
+・Botの会話内容を履歴に残す（最大5件）
+・豊富な会話セットからランダムで話題を出す
+・CloudTextToSpeechを使用
 
 実行手順
 1. config.jsonを追加する
