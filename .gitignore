@@ -3,3 +3,4 @@
 
 # 生成されたファイルとディレクトリを無視する
 node_modules/
+audio/-data/
